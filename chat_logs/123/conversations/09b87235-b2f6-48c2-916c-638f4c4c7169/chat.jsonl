@@ -1,0 +1,2 @@
+{"timestamp": "2026-03-09T15:54:33.095115", "user_id": "123", "conversation_id": "09b87235-b2f6-48c2-916c-638f4c4c7169", "session_id": "09b87235-b2f6-48c2-916c-638f4c4c7169", "role": "user", "content": "Python编程是什么？", "aliyun_image_url": null}
+{"timestamp": "2026-03-09T15:54:48.066561", "user_id": "123", "conversation_id": "09b87235-b2f6-48c2-916c-638f4c4c7169", "session_id": "09b87235-b2f6-48c2-916c-638f4c4c7169", "role": "assistant", "content": "Python编程是一种使用Python语言进行程序设计的技术。Python是一种高级编程语言，以其代码的可读性和简洁性而闻名。", "aliyun_image_url": null}

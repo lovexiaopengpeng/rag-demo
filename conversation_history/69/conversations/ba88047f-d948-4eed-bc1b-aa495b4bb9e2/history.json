@@ -1,0 +1,22 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "2026年国际足联世界杯的比赛场馆有哪些？"
+    },
+    {
+      "role": "assistant",
+      "content": "抱歉，我暂时无法回答这个问题，请稍后重试。"
+    },
+    {
+      "role": "user",
+      "content": "你是谁"
+    },
+    {
+      "role": "assistant",
+      "content": "我是一个基于丛茂科技大语言模型的AI助手，专为丛茂科技提供服务。"
+    }
+  ],
+  "max_turns": 6
+}

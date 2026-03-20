@@ -1,0 +1,11 @@
+fastapi
+pydantic
+langchain_community
+ollama
+chromadb
+uvicorn
+python-multipart
+openpyxl
+python-pptx
+beautifulsoup4
+duckduckgo-search

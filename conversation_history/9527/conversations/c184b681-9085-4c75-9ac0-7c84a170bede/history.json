@@ -1,0 +1,22 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "公司的考勤制度是怎样的？"
+    },
+    {
+      "role": "assistant",
+      "content": "非常抱歉，我暂时无法回答这个问题，请稍后重试。"
+    },
+    {
+      "role": "user",
+      "content": "公司有哪些福利政策？"
+    },
+    {
+      "role": "assistant",
+      "content": "公司福利政策可能包括但不限于：五险一金、年终奖、带薪年假、员工培训机会、节日礼品等。具体政策因公司而异。"
+    }
+  ],
+  "max_turns": 6
+}

@@ -1,0 +1,14 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "2026年最新科技趋势是什么？"
+    },
+    {
+      "role": "assistant",
+      "content": "人工智能和元宇宙的发展将是2026年的重要科技趋势。"
+    }
+  ],
+  "max_turns": 6
+}

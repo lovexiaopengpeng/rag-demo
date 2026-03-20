@@ -1,0 +1,14 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "Python编程是什么？"
+    },
+    {
+      "role": "assistant",
+      "content": "Python编程是一种使用Python语言进行程序设计的技术。Python是一种高级编程语言，以其代码的可读性和简洁性而闻名。"
+    }
+  ],
+  "max_turns": 6
+}

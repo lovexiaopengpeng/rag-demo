@@ -1,0 +1,14 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "string"
+    },
+    {
+      "role": "assistant",
+      "content": "G-<span class=\"searchmatch\">string</span> tie/String<span class=\"searchmatch\">string</span> theory/string searching algorithms/String"
+    }
+  ],
+  "max_turns": 6
+}
