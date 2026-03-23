@@ -1,0 +1,30 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "日本的最高峰是什么？"
+    },
+    {
+      "role": "assistant",
+      "content": "富士山。"
+    },
+    {
+      "role": "user",
+      "content": "它有多高？"
+    },
+    {
+      "role": "assistant",
+      "content": "3776米。"
+    },
+    {
+      "role": "user",
+      "content": "什么时候可以登山？"
+    },
+    {
+      "role": "assistant",
+      "content": "每年的4月15日至11月15日为富士山开放登山期。"
+    }
+  ],
+  "max_turns": 6
+}

@@ -1,0 +1,22 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "Python是一门什么语言？"
+    },
+    {
+      "role": "assistant",
+      "content": "Python是一种高级编程语言。"
+    },
+    {
+      "role": "user",
+      "content": "有什么优点？"
+    },
+    {
+      "role": "assistant",
+      "content": "Python的优点包括：易于学习、可读性强、跨平台、拥有庞大的标准库和丰富的第三方库支持。"
+    }
+  ],
+  "max_turns": 6
+}

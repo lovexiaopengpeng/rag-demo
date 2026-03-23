@@ -1,0 +1,14 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "有哪些美食"
+    },
+    {
+      "role": "assistant",
+      "content": "有很多美食，比如北京烤鸭、四川火锅、广东早茶、云南过桥米线等。"
+    }
+  ],
+  "max_turns": 6
+}

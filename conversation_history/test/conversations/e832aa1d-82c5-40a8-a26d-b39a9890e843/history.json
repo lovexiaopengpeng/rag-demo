@@ -1,0 +1,54 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "北京有什么著名景点？"
+    },
+    {
+      "role": "assistant",
+      "content": "故宫、天安门、长城、颐和园、北海公园、恭王府、798艺术区等。"
+    },
+    {
+      "role": "user",
+      "content": "门票多少钱？"
+    },
+    {
+      "role": "assistant",
+      "content": "抱歉，我暂时无法回答这个问题，请稍后重试。"
+    },
+    {
+      "role": "user",
+      "content": "哪个最值得去？"
+    },
+    {
+      "role": "assistant",
+      "content": "天坛"
+    },
+    {
+      "role": "user",
+      "content": "怎么去？"
+    },
+    {
+      "role": "assistant",
+      "content": "乘坐地铁到雍和宫站或永定门站，步行约5-10分钟可达。"
+    },
+    {
+      "role": "user",
+      "content": "还有呢？"
+    },
+    {
+      "role": "assistant",
+      "content": "抱歉，我暂时无法回答这个问题，请稍后重试。"
+    },
+    {
+      "role": "user",
+      "content": "有类似的推荐吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "地铁2号线到雍和宫站或者地铁5号线到永定门站。"
+    }
+  ],
+  "max_turns": 6
+}

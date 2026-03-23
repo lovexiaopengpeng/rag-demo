@@ -1,0 +1,30 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "法国的首都是哪里？"
+    },
+    {
+      "role": "assistant",
+      "content": "巴黎"
+    },
+    {
+      "role": "user",
+      "content": "有哪些著名景点？"
+    },
+    {
+      "role": "assistant",
+      "content": "埃菲尔铁塔、卢浮宫、凯旋门、圣母院等。"
+    },
+    {
+      "role": "user",
+      "content": "有什么好吃的？"
+    },
+    {
+      "role": "assistant",
+      "content": "巴黎的美食种类繁多，包括法式甜点如马卡龙和可颂，奶酪如布里和罗克福，以及著名的鹅肝酱。此外还有各式各样的法国面包、汤品、海鲜料理等。"
+    }
+  ],
+  "max_turns": 6
+}

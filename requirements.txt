@@ -9,3 +9,5 @@ openpyxl
 python-pptx
 beautifulsoup4
 duckduckgo-search
+transformers
+torch

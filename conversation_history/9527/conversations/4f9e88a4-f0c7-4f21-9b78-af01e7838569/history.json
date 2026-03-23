@@ -1,0 +1,54 @@
+{
+  "summary": "",
+  "history": [
+    {
+      "role": "user",
+      "content": "埃及的首都是哪里？"
+    },
+    {
+      "role": "assistant",
+      "content": "开罗"
+    },
+    {
+      "role": "user",
+      "content": "有哪些美食"
+    },
+    {
+      "role": "assistant",
+      "content": "有很多美食，比如北京烤鸭、四川火锅、广东早茶、云南过桥米线等。"
+    },
+    {
+      "role": "user",
+      "content": "有哪些美食"
+    },
+    {
+      "role": "assistant",
+      "content": "开罗的美食有法拉利（Fattoush Salad）、埃及烤肉串（Kofta）、羊肉泡馍（Moussaka）等。"
+    },
+    {
+      "role": "user",
+      "content": "有哪些美食"
+    },
+    {
+      "role": "assistant",
+      "content": "近代霍布斯和约翰·洛克也讨论过该问题。至今仍无结论。"
+    },
+    {
+      "role": "user",
+      "content": "有哪些美食"
+    },
+    {
+      "role": "assistant",
+      "content": "A: Fattoush Salad, Kofta, Moussaka"
+    },
+    {
+      "role": "user",
+      "content": "有哪些美食"
+    },
+    {
+      "role": "assistant",
+      "content": "有很多美食，比如北京烤鸭、四川火锅、广东早茶、云南过桥米线等。"
+    }
+  ],
+  "max_turns": 6
+}

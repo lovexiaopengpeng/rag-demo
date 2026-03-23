@@ -1,0 +1,18 @@
+{
+  "summary": "iPhone 15系列的新功能包括A1 hexa芯片、ProMotion自适应刷新率屏幕、改进的LiDAR扫描仪、更强大的摄像头系统以及新的颜色选项。起售价为6999元。新款iPhone在设计、摄像头性能、处理器速度和软件体验等方面有所改进，值得购买。目前无法确定其他颜色是否可选。",
+  "history": [
+    {
+      "role": "assistant",
+      "content": "抱歉，我暂时无法回答这个问题，请稍后重试。"
+    },
+    {
+      "role": "user",
+      "content": "有其他颜色吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "非常抱歉，我暂时无法回答这个问题，请稍后重试。"
+    }
+  ],
+  "max_turns": 6
+}
