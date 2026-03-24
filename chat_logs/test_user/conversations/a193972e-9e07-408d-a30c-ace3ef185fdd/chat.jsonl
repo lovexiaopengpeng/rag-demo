@@ -1,0 +1,2 @@
+{"timestamp": "2026-03-24T11:30:10.260789", "user_id": "test_user", "conversation_id": "a193972e-9e07-408d-a30c-ace3ef185fdd", "session_id": "a193972e-9e07-408d-a30c-ace3ef185fdd", "role": "user", "content": "广州的天气怎么样？", "aliyun_image_url": null}
+{"timestamp": "2026-03-24T11:30:13.854733", "user_id": "test_user", "conversation_id": "a193972e-9e07-408d-a30c-ace3ef185fdd", "session_id": "a193972e-9e07-408d-a30c-ace3ef185fdd", "role": "assistant", "content": "广州当前天气：雷阵雨，温度：30°C，湿度：80%，风速：4m/s", "aliyun_image_url": null}

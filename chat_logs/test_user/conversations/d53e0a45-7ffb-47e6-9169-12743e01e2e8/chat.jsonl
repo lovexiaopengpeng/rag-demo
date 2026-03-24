@@ -1,0 +1,2 @@
+{"timestamp": "2026-03-24T11:25:17.514991", "user_id": "test_user", "conversation_id": "d53e0a45-7ffb-47e6-9169-12743e01e2e8", "session_id": "d53e0a45-7ffb-47e6-9169-12743e01e2e8", "role": "user", "content": "北京的天气怎么样？", "aliyun_image_url": null}
+{"timestamp": "2026-03-24T11:25:20.810207", "user_id": "test_user", "conversation_id": "d53e0a45-7ffb-47e6-9169-12743e01e2e8", "session_id": "d53e0a45-7ffb-47e6-9169-12743e01e2e8", "role": "assistant", "content": "北京当前天气：晴，温度：25°C，湿度：60%，风速：3m/s", "aliyun_image_url": null}

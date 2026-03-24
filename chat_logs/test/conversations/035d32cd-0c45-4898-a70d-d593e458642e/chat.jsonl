@@ -1,0 +1,2 @@
+{"timestamp": "2026-03-24T10:25:31.626273", "user_id": "test", "conversation_id": "035d32cd-0c45-4898-a70d-d593e458642e", "session_id": "035d32cd-0c45-4898-a70d-d593e458642e", "role": "user", "content": "上海的天气如何？", "aliyun_image_url": null}
+{"timestamp": "2026-03-24T10:25:33.174671", "user_id": "test", "conversation_id": "035d32cd-0c45-4898-a70d-d593e458642e", "session_id": "035d32cd-0c45-4898-a70d-d593e458642e", "role": "assistant", "content": "上海, 中国的当前天气：\n温度：15.6°C\n湿度：66%\n天气状况：雷阵雨\n风速：3.6 m/s", "aliyun_image_url": null}

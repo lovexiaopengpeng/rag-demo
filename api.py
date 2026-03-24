@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from pydantic import BaseModel
-import shutil, os
+import shutil, os, re
 
 from rag_core import ask_rag, LLM
 
@@ -263,6 +263,27 @@ def ask(req: AskRequest):
         
         return video_result
     
+    elif user_intent == "weather":
+        # 提取地点
+        location = extract_weather_location(req.question)
+        # 查询天气
+        weather_data = get_weather(location)
+        
+        # 记录助手回复
+        log_chat(req.user_id, req.conversation_id, "assistant", weather_data["answer"])
+        
+        # 构建回复
+        response = {
+            "answer": weather_data["answer"],
+            "user_id": req.user_id,
+            "conversation_id": req.conversation_id,
+            "session_id": session_key,
+            "source": "coze_weather",
+            "weather_data": weather_data
+        }
+        
+        return response
+    
     else:
         # 继续使用现有的ask_rag逻辑
         result = ask_rag(req.question, memory)
@@ -321,6 +342,7 @@ def identify_user_intent_with_qwen(question: str, session_id: str = None) -> str
         - recreate_image: 基于图片进行二次创作
         - generate_image: 生成新的图片
         - generate_video: 生成视频
+        - weather: 查询天气信息
         - ask_question: 其他问题
         
         分析规则：
@@ -328,12 +350,14 @@ def identify_user_intent_with_qwen(question: str, session_id: str = None) -> str
         2. 如果用户提到"基于图片"、"参考图片"、"根据图片"、"图片风格"、"模仿图片"等，选择 recreate_image
         3. 如果用户提到"生成图片"、"画"、"创作图片"、"create image"、"draw"、"paint"等，选择 generate_image
         4. 如果用户提到"生成视频"、"视频"、"video"、"create video"、"make video"等，选择 generate_video
-        5. 其他情况选择 ask_question
+        5. 如果用户提到"天气"、"气温"、"温度"、"下雨"、"晴天"、"多云"、"刮风"、"下雪"等，选择 weather
+        6. 其他情况选择 ask_question
         
         注意：
         - "分析图片"是指用户想了解图片中已经存在的内容
         - "生成图片"是指用户想创建一张新的图片
-        - 请仔细区分这两种意图
+        - "天气"是指用户想查询某个地点的天气信息
+        - 请仔细区分这些意图
         
         用户问题：{question}
         
@@ -350,7 +374,7 @@ def identify_user_intent_with_qwen(question: str, session_id: str = None) -> str
             intent = "ask_question"
         
         # 验证返回的意图标签
-        valid_intents = ["analyze_image", "recreate_image", "generate_image", "generate_video", "ask_question"]
+        valid_intents = ["analyze_image", "recreate_image", "generate_image", "generate_video", "weather", "ask_question"]
         if intent in valid_intents:
             return intent
         else:
@@ -392,6 +416,12 @@ def identify_user_intent_fallback(question: str) -> str:
         if keyword in question:
             return "generate_video"
     
+    # 天气查询关键词
+    weather_keywords = ["天气", "气温", "温度", "下雨", "晴天", "多云", "刮风", "下雪"]
+    for keyword in weather_keywords:
+        if keyword in question:
+            return "weather"
+    
     # 默认意图
     return "ask_question"
 
@@ -420,6 +450,133 @@ def extract_video_prompt(question: str) -> str:
         return "一个阳光明媚的下午，孩子们在公园里玩耍，鸟儿在树上唱歌，花朵盛开，蝴蝶飞舞"
     
     return question
+
+def extract_weather_location(user_input):
+    """
+    提取天气查询的地点
+    """
+    # 简单的地点提取逻辑
+    location_patterns = [
+        r"(.*?)的天气",
+        r"(.*?)天气",
+        r"天气(.*?)"
+    ]
+    
+    for pattern in location_patterns:
+        match = re.search(pattern, user_input)
+        if match:
+            location = match.group(1).strip()
+            if location:
+                return location
+    
+    # 默认返回北京
+    return "北京"
+
+def get_weather(location: str) -> dict:
+    """
+    使用Coze API查询天气信息
+    """
+    import requests
+    import json
+    
+    try:
+        # Coze API接口
+        api_url = "https://api.coze.cn/v3/chat?"
+        
+        # 请求头
+        headers = {
+            "Authorization": "Bearer sat_tk9GhBsdDvy0vAmsFOFu4jtpOEQwrRcAtrZWQD8gDT3OyYotU6hNom7LEP4hd9gS",
+            "Content-Type": "application/json"
+        }
+        
+        # 请求体
+        payload = {
+            "bot_id": "7620652528551854107",
+            "user_id": "123456789",
+            "stream": False,
+            "additional_messages": [
+                {
+                    "content": f"{location}的天气",
+                    "content_type": "text",
+                    "role": "user",
+                    "type": "question"
+                }
+            ],
+            "parameters": {}
+        }
+        
+        # 发送请求
+        response = requests.post(api_url, headers=headers, json=payload)
+        response.raise_for_status()
+        
+        # 解析响应
+        data = response.json()
+        print(f"Coze API响应: {json.dumps(data, ensure_ascii=False)}")
+        
+        # 提取天气信息
+        if "data" in data:
+            chat_data = data["data"]
+            
+            # 检查API状态
+            status = chat_data.get("status", "")
+            if status == "in_progress":
+                # API请求正在处理中
+                answer = f"{location}的天气信息正在查询中，请稍候再试"
+                return {
+                    "answer": answer,
+                    "location": location,
+                    "status": "pending",
+                    "source": "coze_weather"
+                }
+            
+            # 尝试获取消息
+            messages = chat_data.get("messages", [])
+            if messages:
+                # 获取助手的回复
+                assistant_message = None
+                for message in messages:
+                    if message.get("role") == "assistant":
+                        assistant_message = message
+                        break
+                
+                if assistant_message:
+                    answer = assistant_message.get("content", "未知")
+                    
+                    return {
+                        "answer": answer,
+                        "location": location,
+                        "status": "success",
+                        "source": "coze_weather"
+                    }
+        
+        # API返回格式错误或未获取到天气信息
+        answer = f"{location}的天气信息暂时无法获取，请稍后再试"
+        return {
+            "answer": answer,
+            "location": location,
+            "status": "error",
+            "source": "coze_weather"
+        }
+        
+    except Exception as e:
+        print(f"天气查询失败: {str(e)}")
+        
+        # 构建回复
+        answer = f"{location}当前天气：未知，温度：未知°，湿度：未知%，风速：未知"
+        
+        return {
+            "answer": answer,
+            "location": location,
+            "temperature": "未知",
+            "humidity": "未知",
+            "weather_desc": "未知",
+            "wind_speed": "未知",
+            "status": "fail",
+            "source": "coze_weather"
+        }
+
+
+
 
 def generate_image(session_id: str, prompt: str) -> dict:
     """生成图片"""
