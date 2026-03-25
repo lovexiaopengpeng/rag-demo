@@ -474,6 +474,84 @@ def extract_weather_location(user_input):
 
 def get_weather(location: str) -> dict:
     """
+    获取天气信息
+    API-KEY: sk-26270c8bfdd74a59a59a3ccc4ff29429
+    应用ID: 97488c47da5946c2b94c3a876b289a3d
+    """
+    import requests
+    import json
+    
+    try:
+        # 阿里云API接口
+        api_url = "https://dashscope.aliyuncs.com/api/v1/apps/97488c47da5946c2b94c3a876b289a3d/completion"
+        
+        # 请求头
+        headers = {
+            "Authorization": "Bearer sk-26270c8bfdd74a59a59a3ccc4ff29429",
+            "Content-Type": "application/json"
+        }
+        
+        # 请求体
+        payload = {
+            "input": {
+                "prompt": f"{location}的天气"
+            },
+            "parameters": {},
+            "debug": {}
+        }
+        
+        # 发送请求
+        response = requests.post(api_url, headers=headers, json=payload)
+        response.raise_for_status()
+        
+        # 解析响应
+        data = response.json()
+        print(f"阿里云API响应: {json.dumps(data, ensure_ascii=False)}")
+        
+        # 提取天气信息
+        if "output" in data:
+            output = data["output"]
+            if "text" in output:
+                answer = output["text"]
+                return {
+                    "answer": answer,
+                    "location": location,
+                    "status": "success",
+                    "source": "aliyun_weather"
+                }
+        
+        # API返回格式错误或未获取到天气信息
+        answer = f"{location}的天气信息暂时无法获取，请稍后再试"
+        return {
+            "answer": answer,
+            "location": location,
+            "status": "error",
+            "source": "aliyun_weather"
+        }
+        
+    except Exception as e:
+        print(f"天气查询失败: {str(e)}")
+        
+        # 构建回复
+        answer = f"{location}当前天气：未知，温度：未知°，湿度：未知%，风速：未知"
+        
+        return {
+            "answer": answer,
+            "location": location,
+            "temperature": "未知",
+            "humidity": "未知",
+            "weather_desc": "未知",
+            "wind_speed": "未知",
+            "status": "fail",
+            "source": "aliyun_weather"
+        }
+
+    
+
+
+def get_weatherByCoze(location: str) -> dict:
+
+    """
     使用Coze API查询天气信息
     """
     import requests
