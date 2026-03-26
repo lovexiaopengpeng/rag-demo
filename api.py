@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, File, Form
 from pydantic import BaseModel
 import shutil, os, re
 
-from rag_core import ask_rag, LLM
+from rag_core import ask_rag, LLM, _ask_rag_impl
 
 from config import DB_DIR
 from ingest import ingest_files, DOCS_DIR
@@ -265,7 +265,13 @@ def ask(req: AskRequest):
     
     elif user_intent == "weather":
         # 提取地点
-        location = extract_weather_location(req.question)
+        # 待优化改进还是有点问题
+        rewritten_questionStr = _ask_rag_impl(req.question, memory)["rewritten_question"]
+        location = extract_weather_location(rewritten_questionStr)
+        print(f"天气原问题: {req.question}")
+        print(f"补全天气问题: {rewritten_questionStr}")
+
+        # location = extract_weather_location(req.question)
         # 查询天气
         weather_data = get_weather(location)
         

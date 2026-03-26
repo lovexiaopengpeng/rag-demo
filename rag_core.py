@@ -515,7 +515,7 @@ def rewrite_question(history, question, session_id=None):
 4. 当问题涉及选择、排除、添加、修改等操作时（如"选第一个"、"不要这个"、"换成"），需要结合历史对话补全
 
 【属性类】
-5. 当问题涉及时间、地点、数量、原因、方式等属性时（如"什么时候"、"在哪里"、"多少"、"怎么"），需要结合历史对话补全
+5. 当问题涉及时间、地点、数量、原因、方式等属性时（如"什么时候"、"在哪里"、"多少"、"怎么"、"那里"），需要结合历史对话补全
 
 【比较类】
 6. 当问题涉及比较、排序、筛选时（如"哪个更好"、"按...排序"、"只要"），需要结合历史对话补全
@@ -970,10 +970,10 @@ def _ask_rag_impl(question: str, memory) -> dict:
         try:
             # 至少有2条消息才保存（用户+助手）
             if len(memory.history) >= 2:
-                # 每5轮对话保存一次，或者第一次保存
+                # 每2轮对话保存一次，或者第一次保存
                 should_save = (
                     len(memory.history) == 2 or  # 第一次完整对话
-                    len(memory.history) % 5 == 0  # 每5条消息保存一次
+                    len(memory.history) % 2 == 0  # 每2条消息保存一次
                 )
                 if should_save:
                     analyze_and_save_user_preferences(session_id, memory.history)
