@@ -266,10 +266,30 @@ def ask(req: AskRequest):
     elif user_intent == "weather":
         # 提取地点
         # 待优化改进还是有点问题
-        rewritten_questionStr = _ask_rag_impl(req.question, memory)["rewritten_question"]
-        location = extract_weather_location(rewritten_questionStr)
+        # rewritten_questionStr = _ask_rag_impl(req.question, memory)["rewritten_question"]
+        # location = extract_weather_location(rewritten_questionStr)
+
+        result = ask_rag(req.question, memory)
+        rewritten_question = result.get("rewritten_question", req.question)
+        
+        
+        # 记录改写后的问题（使用system角色）
+        if rewritten_question != req.question:
+            log_chat(req.user_id, req.conversation_id, "system", f"改写后的问题: {rewritten_question}",
+                    rewritten_question=rewritten_question)
+        
+        # 记录助手回复（此时的时间戳是真实的回复时间）
+        log_chat(req.user_id, req.conversation_id, "assistant", answer)
+
+        if source != "llm":
+                save_sft_sample(req.question, answer, source, session_key)
+
+        location = extract_weather_location(rewritten_question)
+
+
+
         print(f"天气原问题: {req.question}")
-        print(f"补全天气问题: {rewritten_questionStr}")
+        print(f"补全天气问题: {rewritten_question}")
 
         # location = extract_weather_location(req.question)
         # 查询天气
