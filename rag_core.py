@@ -70,7 +70,7 @@ session_topic_cache = {}
 # 用户偏好缓存
 user_preferences_cache = {}
 
-
+# ===== 取消联网搜索功能已用百炼平台替代 =====
 def web_search(query: str, max_results: int = 5) -> List[dict]:
     """
     使用维基百科搜索
@@ -137,6 +137,60 @@ def web_search(query: str, max_results: int = 5) -> List[dict]:
         print(f"❌ 维基百科搜索失败: {e}")
     
     return search_results
+
+def get_webResult(query: str) -> str:
+    """
+    获取网页信息
+    API-KEY: sk-26270c8bfdd74a59a59a3ccc4ff29429
+    应用ID: 8dcd7a0a98e44383b25b55fa8fe34587
+    """
+    import requests
+    import json
+    
+    try:
+        # 阿里云API接口
+        api_url = "https://dashscope.aliyuncs.com/api/v1/apps/8dcd7a0a98e44383b25b55fa8fe34587/completion"
+        
+        # 请求头
+        headers = {
+            "Authorization": "Bearer sk-26270c8bfdd74a59a59a3ccc4ff29429",
+            "Content-Type": "application/json"
+        }
+        
+        # 请求体
+        payload = {
+            "input": {
+                "prompt": f"{query}"
+            },
+            "parameters": {},
+            "debug": {}
+        }
+        
+        # 发送请求
+        response = requests.post(api_url, headers=headers, json=payload)
+        response.raise_for_status()
+        
+        # 解析响应
+        data = response.json()
+        print(f"阿里云API响应: {json.dumps(data, ensure_ascii=False)}")
+        
+        # 提取天气信息
+        if "output" in data:
+            output = data["output"]
+            if "text" in output:
+                answer = output["text"]
+                return answer
+        
+        # API返回格式错误或未获取到网页信息
+        answer = f"暂时无法获取，请稍后再试"
+        return answer
+        
+    except Exception as e:
+        print(f"网页查询失败: {str(e)}")
+        
+        # 构建回复
+        answer = f"暂时无法获取，请稍后再试"
+        return answer
 
 
 def search_results_to_documents(search_results: List[dict]) -> List[Document]:
@@ -1370,11 +1424,33 @@ def _ask_rag_impl(question: str, memory) -> dict:
 
     # 判断大模型是否能够回答
     # 如果大模型回答包含"抱歉"、"无法回答"、"未找到"等关键词，说明它无法回答
-    cannot_answer_keywords = ["抱歉", "无法回答", "未找到", "不知道", "不清楚", "暂时无法", "我不了解"]
+    cannot_answer_keywords = ["抱歉", "无法回答", "未找到", "不知道", "不清楚", "暂时无法", "我不了解", "请稍后重试"]
     llm_cannot_answer = any(keyword in final_answer for keyword in cannot_answer_keywords)
     
     if llm_cannot_answer:
-        print("🧠 大模型无法回答，尝试维基百科搜索...")
+        print("🧠 大模型无法回答，尝试联网搜索...")
+
+        web_answer = get_web_answer(rewritten_question)
+        if web_answer:
+                print(f"✅ 从联网搜索找到答案: {web_answer}")
+                hit_from = "维基百科搜索"
+                lyuan = "web"
+                memory.add("assistant", web_answer)
+                related_questions = [question]# generate_related_questions(web_answer, question)
+                return save_preferences_before_return({
+                    "answer": web_answer,
+                    "hit_from": hit_from,
+                    "scores": {
+                        "knowledge_base": kb_score,
+                        "uploaded_files": upload_score,
+                        "web_search": 0.8
+                    },
+                    "sources": lyuan,
+                    "rewritten_question": rewritten_question,
+                    "related_questions": related_questions
+                })
+
+        """
         search_results = web_search(rewritten_question, max_results=5)
         if search_results:
             web_answer = generate_answer_from_web(search_results, rewritten_question)
@@ -1396,6 +1472,8 @@ def _ask_rag_impl(question: str, memory) -> dict:
                     "rewritten_question": rewritten_question,
                     "related_questions": related_questions
                 })
+                
+        """
     
     # 如果大模型能回答，或者联网搜索也没有找到答案，就使用大模型的回答
     hit_from = "大模型直答"
